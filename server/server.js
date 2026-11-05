@@ -1,4 +1,7 @@
-require("dotenv").config();
+require("dotenv").config({
+    path: require("path").join(__dirname, ".env"),
+    override: true
+});
 
 const app = require("./app");
 const connectDatabase = require("./config/database");
