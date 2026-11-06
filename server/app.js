@@ -9,6 +9,7 @@ const authenticate = require("./middleware/authenticate");
 const authorize = require("./middleware/authorize");
 const leaderboardRoutes = require("./routes/leaderboardRoutes");
 const scoreRoutes = require("./routes/scoreRoutes");
+const gameRoutes = require("./routes/gameRoutes");
 
 // Parse incoming JSON request bodies.
 app.use(express.json({ limit: "16kb" }));
@@ -23,6 +24,8 @@ app.use("/api/auth", authRoutes);
 // SCRUM-21: Implement leaderboard ranking API.
 app.use("/api/leaderboards", leaderboardRoutes);
 app.use("/api/scores", scoreRoutes);
+app.use("/api/games", gameRoutes);
+
 // Centralized error handler.
 app.use((err, req, res, next) => {
     console.error("Application error:", err);
