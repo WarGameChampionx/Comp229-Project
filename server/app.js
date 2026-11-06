@@ -7,6 +7,7 @@ const app = express();
 
 const authenticate = require("./middleware/authenticate");
 const authorize = require("./middleware/authorize");
+const leaderboardRoutes = require("./routes/leaderboardRoutes");
 
 // Parse incoming JSON request bodies.
 app.use(express.json({ limit: "16kb" }));
@@ -18,6 +19,8 @@ app.get("/api/health", (req, res) => {
 
 // SCRUM-13: Authentication endpoints.
 app.use("/api/auth", authRoutes);
+// SCRUM-21: Implement leaderboard ranking API.
+app.use("/api/leaderboards", leaderboardRoutes);
 
 // Centralized error handler.
 app.use((err, req, res, next) => {
