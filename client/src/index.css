@@ -1,0 +1,150 @@
+
+:root {
+  font-family: Arial, Helvetica, sans-serif;
+  color: #e9eef7;
+  background: #101827;
+  font-synthesis: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.site-header {
+  background: #1d2b43;
+  border-bottom: 1px solid #34445e;
+}
+
+.navbar {
+  max-width: 1200px;
+  margin: auto;
+  padding: 18px 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.brand {
+  font-size: 20px;
+  font-weight: 800;
+  color: #f3c969;
+}
+
+.nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: #f3c969;
+}
+
+.main-content {
+  min-height: calc(100vh - 145px);
+}
+
+.hero {
+  max-width: 900px;
+  margin: auto;
+  padding: 110px 24px;
+  text-align: center;
+}
+
+.eyebrow {
+  color: #f3c969;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+.hero h1 {
+  font-size: clamp(36px, 6vw, 64px);
+  margin: 16px 0;
+}
+
+.hero p {
+  line-height: 1.7;
+}
+
+.hero-actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.button {
+  padding: 13px 22px;
+  border-radius: 8px;
+  background: #e9b949;
+  color: #101827;
+  font-weight: 700;
+}
+
+.button-outline {
+  background: transparent;
+  color: #e9b949;
+  border: 1px solid #e9b949;
+}
+
+.page-content {
+  max-width: 1100px;
+  margin: auto;
+  padding: 48px 24px;
+}
+
+.site-footer {
+  padding: 18px;
+  text-align: center;
+  background: #1d2b43;
+  color: #b5c1d5;
+}
+
+@media (max-width: 700px) {
+  .navbar {
+    flex-direction: column;
+  }
+
+  .nav-links {
+    justify-content: center;
+  }
+
+  .hero {
+    padding: 65px 20px;
+  }
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100px;          /* Adjust white box WIDTH here */
+  height: 60px;          /* Adjust white box HEIGHT here */
+
+  background-color: white;
+  padding: 2px;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.brand-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
