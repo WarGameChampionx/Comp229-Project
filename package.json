@@ -1,7 +1,7 @@
 {
   "name": "arcade-leaderboard",
   "version": "1.0.0",
-  "description": "\"# Comp229-Project\"",
+  "description": "Comp229 Project",
   "main": "index.js",
   "scripts": {
     "dev": "concurrently -k -n SERVER,CLIENT -c blue,green \"npm run dev --prefix server\" \"npm run dev --prefix client\"",
@@ -10,6 +10,12 @@
     "client": "npm run dev --prefix client",
     "build": "npm run build --prefix client",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "lucide-react": "^1.70.0"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.6"
   },
   "repository": {
     "type": "git",
@@ -22,8 +28,6 @@
   "bugs": {
     "url": "https://github.com/WarGameChampionx/Comp229-Project/issues"
   },
-  "homepage": "https://github.com/WarGameChampionx/Comp229-Project#readme",
-  "devDependencies": {
-    "concurrently": "^10.0.6"
-  }
+  "homepage": "https://github.com/WarGameChampionx/Comp229-Project#readme"
 }
+

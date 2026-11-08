@@ -1,4 +1,5 @@
 
+
 :root {
   font-family: Arial, Helvetica, sans-serif;
   color: #e9eef7;
@@ -20,6 +21,7 @@ a {
   text-decoration: none;
 }
 
+/* Navbar */
 .site-header {
   background: #1d2b43;
   border-bottom: 1px solid #34445e;
@@ -29,7 +31,6 @@ a {
   max-width: 1200px;
   margin: auto;
   padding: 18px 24px;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -37,9 +38,22 @@ a {
 }
 
 .brand {
-  font-size: 20px;
-  font-weight: 800;
-  color: #f3c969;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 60px;
+  background-color: white;
+  padding: 2px;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.brand-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
 }
 
 .nav-links {
@@ -48,6 +62,17 @@ a {
   gap: 18px;
 }
 
+.nav-links a {
+  color: #c4c5d3;
+}
+
+.nav-links a {
+  color: #c4c5d3;
+}
+.nav-links a:hover,
+.nav-links a.active {
+  color: #f3c969;
+}
 .nav-links a,
 .nav-links .nav-username,
 .nav-links .nav-logout {
@@ -81,6 +106,7 @@ a {
   background: #302546;
 }
 
+/* Main layout */
 .main-content {
   min-height: calc(100vh - 145px);
 }
@@ -135,11 +161,180 @@ a {
   padding: 48px 24px;
 }
 
+/* Local purple-theme component styles */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 23px;
+  font-weight: 800;
+}
+
+.logo svg,
+.highlight {
+  color: #9870ff;
+}
+
+.nav-links a {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 14px;
+}
+
+.signup-btn,
+.primary-btn {
+  border: none;
+  background: #8054ef;
+  color: white;
+  padding: 13px 24px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.primary-btn:hover,
+.signup-btn:hover {
+  background: #6940d7;
+}
+
+.menu-toggle {
+  display: none;
+  background: none;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.hero-content {
+  max-width: 650px;
+}
+
+.tag {
+  color: #a78bfa;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.hero h1 span {
+  color: #9870ff;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+.secondary-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: 1px solid #55516c;
+  color: white;
+  padding: 13px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.hero-icon {
+  color: #9870ff;
+  opacity: 0.75;
+  filter: drop-shadow(0 0 30px #8054ef);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  padding: 50px 10%;
+}
+
+.stat-card,
+.empty-card {
+  background: #151827;
+  border: 1px solid #282b40;
+  padding: 28px;
+  border-radius: 12px;
+}
+
+.stat-card svg,
+.empty-card svg {
+  color: #9870ff;
+}
+
+.stat-card h2 {
+  margin: 15px 0 5px;
+  font-size: 28px;
+}
+
+.stat-card p,
+.empty-card p {
+  color: #9da0b5;
+  font-size: 14px;
+}
+
+.games-section,
+.leaderboard-section {
+  padding: 45px 10%;
+}
+
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.section-heading h2 {
+  font-size: 28px;
+  margin-top: 10px;
+}
+
+.section-heading a {
+  color: #a78bfa;
+  text-decoration: none;
+}
+
+.empty-card {
+  text-align: center;
+  padding: 55px 20px;
+}
+
+.empty-card h3 {
+  margin: 15px 0 10px;
+}
+
+/* Footer */
 .site-footer {
   padding: 18px;
   text-align: center;
   background: #1d2b43;
   color: #b5c1d5;
+}
+
+/* Responsive layout */
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+  }
+
+  .hero-icon {
+    display: none;
+  }
+
+  .stats {
+    grid-template-columns: 1fr;
+    padding: 30px 7%;
+  }
+
+  .games-section,
+  .leaderboard-section {
+    padding: 35px 7%;
+  }
 }
 
 @media (max-width: 700px) {
@@ -156,26 +351,6 @@ a {
   }
 }
 
-.brand {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 100px;          /* Adjust white box WIDTH here */
-  height: 60px;          /* Adjust white box HEIGHT here */
-
-  background-color: white;
-  padding: 2px;
-  border-radius: 6px;
-  overflow: hidden;
-}
-
-.brand-logo {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  display: block;
-}
 
 /* Games page container */
 .page-container {

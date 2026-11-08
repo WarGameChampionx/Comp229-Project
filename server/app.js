@@ -3,13 +3,18 @@ const express = require("express");
 
 const authRoutes = require("./routes/authRoutes");
 
+const cors = require("cors");
+
 const app = express();
+
+app.use(cors({
+    origin: "http://localhost:5173", // Adjust this to your frontend's URL
+    credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+}));
 
 const authenticate = require("./middleware/authenticate");
 const authorize = require("./middleware/authorize");
 const leaderboardRoutes = require("./routes/leaderboardRoutes");
-const scoreRoutes = require("./routes/scoreRoutes");
-const gameRoutes = require("./routes/gameRoutes");
 
 // Parse incoming JSON request bodies.
 app.use(express.json({ limit: "16kb" }));
@@ -23,8 +28,6 @@ app.get("/api/health", (req, res) => {
 app.use("/api/auth", authRoutes);
 // SCRUM-21: Implement leaderboard ranking API.
 app.use("/api/leaderboards", leaderboardRoutes);
-app.use("/api/scores", scoreRoutes);
-app.use("/api/games", gameRoutes);
 
 // Centralized error handler.
 app.use((err, req, res, next) => {
