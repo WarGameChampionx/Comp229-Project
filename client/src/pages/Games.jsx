@@ -46,9 +46,35 @@ function Games() {
     }
   };
 
-  useEffect(() => {
-    fetchGames();
-  }, []);
+ useEffect(() => {
+  let cancelled = false;
+
+  const loadInitialGames = async () => {
+    try {
+      const response = await API.get("/games");
+
+      if (!cancelled) {
+        setGames(response.data);
+      }
+    } catch (err) {
+      if (!cancelled) {
+        setError(
+          err.response?.data?.message || "Unable to load games."
+        );
+      }
+    } finally {
+      if (!cancelled) {
+        setLoading(false);
+      }
+    }
+  };
+
+  loadInitialGames();
+
+  return () => {
+    cancelled = true;
+  };
+}, []);
 
   // Open create form
   const openCreateForm = () => {

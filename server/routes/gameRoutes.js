@@ -1,30 +1,26 @@
 
 const express = require("express");
-const router = express.Router();
 
 const authenticate = require("../middleware/authenticate");
+const authorize = require("../middleware/authorize");
 
 const {
-    getGames,
-    getGame,
+    getAllGames,
+    getGameById,
     createGame,
     updateGame,
     deleteGame
 } = require("../controllers/gameController");
 
-// Get all games
-router.get("/", getGames);
+const router = express.Router();
 
-// Get one game
-router.get("/:id", getGame);
+// Public endpoints.
+router.get("/", getAllGames);
+router.get("/:id", getGameById);
 
-// Create a game
-router.post("/", authenticate, createGame);
-
-// Update a game
-router.put("/:id", authenticate, updateGame);
-
-// Delete a game
-router.delete("/:id", authenticate, deleteGame);
+// Administrator-only endpoints.
+router.post("/", authenticate, authorize("admin"), createGame);
+router.put("/:id", authenticate, authorize("admin"), updateGame);
+router.delete("/:id", authenticate, authorize("admin"), deleteGame);
 
 module.exports = router;
