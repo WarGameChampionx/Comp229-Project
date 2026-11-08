@@ -44,13 +44,41 @@ a {
 
 .nav-links {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: center;
   gap: 18px;
 }
 
-.nav-links a:hover,
-.nav-links a.active {
-  color: #f3c969;
+.nav-links a,
+.nav-links .nav-username,
+.nav-links .nav-logout {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-username {
+  color: #c4b5fd;
+  font-weight: 600;
+}
+
+.nav-logout {
+  background: transparent;
+  color: #f1f5f9;
+  border: 1px solid #64748b;
+  border-radius: 8px;
+
+  padding: 10px 14px;
+  margin: 0;
+
+  font-family: inherit;
+  font-size: 16px;
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+.nav-logout:hover {
+  background: #302546;
 }
 
 .main-content {
@@ -147,4 +175,329 @@ a {
   height: 100%;
   object-fit: contain;
   display: block;
+}
+
+/* Games page container */
+.page-container {
+  width: min(1100px, 90%);
+  margin: 40px auto;
+}
+
+/* Responsive game grid */
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  margin-top: 30px;
+}
+
+/* Individual game cards */
+.game-card {
+  background-color: #1e2d45;
+  border: 1px solid #34445d;
+  border-radius: 10px;
+  padding: 24px;
+}
+
+/* Game titles */
+.game-card h2 {
+  margin-top: 0;
+  color: #f1f5f9;
+}
+
+/* Game description */
+.game-card p {
+  color: #cbd5e1;
+  line-height: 1.6;
+}
+
+/* View Details link */
+.game-card a {
+  display: inline-block;
+  margin-top: 12px;
+  color: #f3c969;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.game-card a:hover {
+  text-decoration: underline;
+}
+
+/* Navigation back to the Games listing */
+.back-link {
+  display: inline-block;
+  margin-bottom: 24px;
+  color: #f3c969;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+/* Selected game information */
+.game-details-card {
+  max-width: 800px;
+  background-color: #1e2d45;
+  border: 1px solid #34445d;
+  border-radius: 12px;
+  padding: 32px;
+}
+
+.game-details-card h1 {
+  margin-top: 0;
+  font-size: 2rem;
+  color: #f1f5f9;
+}
+
+.game-details-card p {
+  color: #cbd5e1;
+  line-height: 1.7;
+}
+
+/* Game-related actions */
+.game-details-actions {
+  margin-top: 28px;
+}
+
+.game-action-link {
+  display: inline-block;
+  padding: 12px 18px;
+  border: 1px solid #f3c969;
+  border-radius: 8px;
+  color: #f3c969;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.game-action-link:hover {
+  background-color: #f3c969;
+  color: #101827;
+}
+
+
+/* Administrator page layout */
+.admin-layout {
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) minmax(320px, 1.4fr);
+  gap: 24px;
+  margin-top: 28px;
+}
+
+.admin-panel {
+  background-color: #1e2d45;
+  border: 1px solid #34445d;
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.admin-panel h2 {
+  margin-top: 0;
+  color: #f1f5f9;
+}
+
+/* Form inputs */
+.admin-panel form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.admin-panel label {
+  font-weight: 600;
+  color: #cbd5e1;
+}
+
+.admin-panel input,
+.admin-panel textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px;
+  border: 1px solid #475569;
+  border-radius: 6px;
+  background: #101827;
+  color: white;
+  font: inherit;
+}
+
+/* Buttons */
+.admin-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.admin-actions button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  background-color: #e9b949;
+  color: #101827;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.admin-actions button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.admin-actions .secondary-button {
+  background-color: #64748b;
+  color: white;
+}
+
+.admin-actions .delete-button {
+  background-color: #b91c1c;
+  color: white;
+}
+
+.admin-actions a {
+  color: #f3c969;
+}
+
+/* Existing games */
+.admin-games-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.admin-game-item {
+  padding: 18px;
+  border: 1px solid #34445d;
+  border-radius: 8px;
+}
+
+.admin-game-item h3 {
+  margin-top: 0;
+}
+
+.admin-game-item p {
+  color: #cbd5e1;
+}
+
+/* Status messages */
+.admin-warning,
+.admin-error,
+.admin-success {
+  padding: 12px 16px;
+  border-radius: 6px;
+}
+
+.admin-warning {
+  background: #453a20;
+  color: #fde68a;
+}
+
+.admin-error {
+  background: #451f25;
+  color: #fecaca;
+}
+
+.admin-success {
+  background: #163f35;
+  color: #a7f3d0;
+}
+
+/* Responsive layout */
+@media (max-width: 768px) {
+  .admin-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* Login and registration pages */
+.auth-page {
+  min-height: 70vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 48px 20px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 440px;
+  padding: 36px;
+  background: #1e2035;
+  border: 1px solid #46405e;
+  border-radius: 14px;
+}
+
+.auth-card h1 {
+  margin-top: 0;
+  color: #fff;
+  font-size: 2rem;
+}
+
+.auth-card p {
+  color: #cbd5e1;
+}
+
+.auth-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.auth-card label {
+  color: #f1f5f9;
+  font-weight: 600;
+}
+
+.auth-card input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px;
+  border: 1px solid #6b6483;
+  border-radius: 8px;
+  background: #101827;
+  color: #fff;
+  font: inherit;
+}
+
+.auth-card input:focus-visible {
+  outline: 2px solid #a78bfa;
+  outline-offset: 2px;
+}
+
+.auth-card small {
+  color: #c4b5fd;
+}
+
+.auth-card button[type="submit"] {
+  margin-top: 12px;
+  padding: 14px;
+  background: #8051eb;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.auth-card button[type="submit"]:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.auth-card button[type="submit"]:hover:not(:disabled) {
+  background: #9869f8;
+}
+
+.auth-footer {
+  margin-top: 24px;
+  text-align: center;
+}
+
+.auth-footer a {
+  color: #c4b5fd;
 }

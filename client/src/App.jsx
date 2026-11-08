@@ -3,6 +3,15 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
+import Games from "./pages/Games";
+import GameDetails from "./pages/GameDetails";
+import AdminGames from "./pages/AdminGames";
+import { AuthProvider } from "./context/AuthProvider";
+import ProtectedRoute from "./components/ProtectedRoute";
+import AdminRoute from "./components/AdminRoute";
+
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 // Temporary placeholder until the assigned developer
 // implements the corresponding feature.
@@ -18,58 +27,39 @@ function ComingSoon({ title }) {
 function App() {
   return (
     <BrowserRouter>
-      <Navbar />
+      <AuthProvider>
+        <Navbar />
 
-      <main className="main-content">
-        <Routes>
-          <Route path="/" element={<Home />} />
+        <main className="main-content">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            {/* SCRUM-14: Authentication pages */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />}/>
+            {/* SCRUM-17: Game pages */}
+            <Route path="/games" element={<Games />} />
+            <Route path="/games/:id" element={<GameDetails />} />
+            {/* SCRUM-20: Score submission */}
+            <Route path="/scores/submit" element={<ComingSoon title="Submit Score" />}/>
+            {/* SCRUM-22: Leaderboard */}
+            <Route path="/leaderboard" element={<ComingSoon title="Leaderboard" />}/>
+            <Route path="*" element={<ComingSoon title="404 - Page Not Found" />}/>
+            {/* Administrator-only pages */}
+            <Route element={<AdminRoute />}>
+              <Route path="/admin/games" element={<AdminGames />} />
+            </Route>
 
-          {/* SCRUM-14: Authentication pages */}
-          <Route
-            path="/login"
-            element={<ComingSoon title="Login" />}
-          />
-          <Route
-            path="/register"
-            element={<ComingSoon title="Register" />}
-          />
-
-          {/* SCRUM-17: Game pages */}
-          <Route
-            path="/games"
-            element={<ComingSoon title="Games" />}
-          />
-          <Route
-            path="/games/:id"
-            element={<ComingSoon title="Game Details" />}
-          />
-          <Route
-            path="/admin/games"
-            element={<ComingSoon title="Manage Games" />}
-          />
-
-          {/* SCRUM-20: Score submission */}
-          <Route
-            path="/scores/submit"
-            element={<ComingSoon title="Submit Score" />}
-          />
-
-          {/* SCRUM-22: Leaderboard */}
-          <Route
-            path="/leaderboard"
-            element={<ComingSoon title="Leaderboard" />}
-          />
-
-          <Route
-            path="*"
-            element={<ComingSoon title="404 - Page Not Found" />}
-          />
+            {/* Authenticated user pages */}
+            <Route element={<ProtectedRoute />}>
+              <Route path="/scores/submit" element={<ComingSoon title="Submit Score" />}/>
+            </Route>
         </Routes>
       </main>
 
       <footer className="site-footer">
         <p>CTRL-ALT-Elite | COMP229 Web Application Development</p>
       </footer>
+    </AuthProvider>
     </BrowserRouter>
   );
 }
