@@ -1,6 +1,7 @@
 
 const mongoose = require("mongoose");
 const User = require("../models/User");
+const Score = require("../models/Score");
 
 // Obtain the authenticated user ID.
 // Match this helper to the value set by authenticate.js.
@@ -141,28 +142,39 @@ async function updateUser(req, res, next) {
   }
 }
 
-// DELETE /api/users/:id
+
+/**
+ * DELETE /api/users/:id
+ *
+ * Business rules:
+ * - Users may delete their own accounts.
+ * - Administrators may delete user accounts.
+ * - Users with existing Score documents cannot be deleted.
+ */
 async function deleteUser(req, res, next) {
   try {
     const { id } = req.params;
     const authenticatedId = currentUserId(req);
 
+    // Validate MongoDB ObjectId.
     if (!mongoose.isValidObjectId(id)) {
       return res.status(400).json({
         message: "Invalid user ID"
       });
     }
 
+    // Only the account owner or an administrator can delete.
     if (
-      String(authenticatedId) !== id &&
-      req.user?.role !== "admin"
+      authenticatedId !== id &&
+      req.user.role !== "admin"
     ) {
       return res.status(403).json({
         message: "Access denied"
       });
     }
 
-    const user = await User.findByIdAndDelete(id);
+    // Verify that the user exists.
+    const user = await User.findById(id);
 
     if (!user) {
       return res.status(404).json({
@@ -170,9 +182,25 @@ async function deleteUser(req, res, next) {
       });
     }
 
+    // Prevent deletion when the user has any scores.
+    const hasScores = await Score.exists({
+      userId: user._id
+    });
+
+    if (hasScores) {
+      return res.status(409).json({
+        message:
+          "Cannot delete user because the account has existing scores."
+      });
+    }
+
+    // Delete the user if no scores exist.
+    await User.findByIdAndDelete(id);
+
     return res.status(200).json({
       message: "User deleted successfully"
     });
+
   } catch (error) {
     next(error);
   }
