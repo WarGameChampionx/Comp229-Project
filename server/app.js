@@ -6,6 +6,7 @@ const authRoutes = require("./routes/authRoutes");
 const gameRoutes = require("./routes/gameRoutes");
 const scoreRoutes = require("./routes/scoreRoutes");
 const leaderboardRoutes = require("./routes/leaderboardRoutes");
+const userRoutes = require("./routes/userRoutes");
 
 const app = express();
 
@@ -34,6 +35,7 @@ app.use("/api/scores", scoreRoutes);
 
 // SCRUM-21: Leaderboard ranking API.
 app.use("/api/leaderboards", leaderboardRoutes);
+app.use("/api/users", userRoutes);
 
 // Centralized error handler.
 app.use((err, req, res, next) => {
