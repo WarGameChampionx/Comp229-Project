@@ -58,7 +58,7 @@ async function submitScore(req, res, next) {
             },
             {
                 upsert: true,
-                new: true,
+                returnDocument: "after",
                 runValidators: true,
                 includeResultMetadata: true
             }

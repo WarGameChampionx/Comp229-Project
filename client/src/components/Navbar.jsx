@@ -1,23 +1,119 @@
 
-import { NavLink } from "react-router-dom";
-import logo from "../assets/logo2.png";
+import { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 
+import {
+  Gamepad2,
+  House,
+  Trophy,
+  UserRound,
+  LogOut,
+  Menu,
+  X,
+} from "lucide-react";
+
+import { useAuth } from "../hooks/useAuth";
 
 function Navbar() {
+  const navigate = useNavigate();
+  const { user, isAuthenticated, signOut } = useAuth();
+
+  // Controls the mobile navigation menu.
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  function handleLogout() {
+    signOut();
+    setMenuOpen(false);
+    navigate("/", { replace: true });
+  }
+
+  function closeMenu() {
+    setMenuOpen(false);
+  }
+
   return (
-    <header className="site-header">
-      <nav className="navbar">
-        <NavLink className="brand" to="/">
-          <img src={logo} alt="CTRL-ALT-Elite logo" className="brand-logo" />
+    <header className="gz-site-header">
+      <nav className="gz-navbar">
+
+        {/* GameZone branding */}
+        <NavLink
+          to="/"
+          className="gz-brand"
+          onClick={closeMenu}
+          aria-label="GameZone Home"
+        >
+          <Gamepad2 size={35} />
+          <span>
+            Game<span className="gz-purple-text">Zone</span>
+          </span>
         </NavLink>
 
-        <div className="nav-links">
-          <NavLink to="/">Home</NavLink>
-          <NavLink to="/games">Games</NavLink>
-          <NavLink to="/leaderboard">Leaderboard</NavLink>
-          <NavLink to="/login">Login</NavLink>
-          <NavLink to="/register">Register</NavLink>
+        {/* Mobile menu toggle */}
+        <button
+          type="button"
+          className="gz-menu-toggle"
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          {menuOpen ? <X /> : <Menu />}
+        </button>
+
+        {/* Navigation links */}
+        <div
+          className={`gz-nav-links ${
+            menuOpen ? "gz-nav-open" : ""
+          }`}
+        >
+          <NavLink to="/" end onClick={closeMenu}>
+            <House size={19} />
+            Home
+          </NavLink>
+
+          <NavLink to="/games" onClick={closeMenu}>
+            <Gamepad2 size={19} />
+            Games
+          </NavLink>
+
+          <NavLink to="/leaderboard" onClick={closeMenu}>
+            <Trophy size={19} />
+            Leaderboard
+          </NavLink>
+
+          {isAuthenticated ? (
+            <>
+              <span className="gz-username">
+                <UserRound size={19} />
+                {user?.username}
+              </span>
+
+              <button
+                type="button"
+                className="gz-logout-btn"
+                onClick={handleLogout}
+              >
+                <LogOut size={18} />
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <NavLink to="/login" onClick={closeMenu}>
+                <UserRound size={19} />
+                Login
+              </NavLink>
+
+              <NavLink
+                to="/register"
+                className="gz-register-btn"
+                onClick={closeMenu}
+              >
+                Register
+              </NavLink>
+            </>
+          )}
         </div>
+
       </nav>
     </header>
   );

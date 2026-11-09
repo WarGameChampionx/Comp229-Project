@@ -141,7 +141,7 @@ async function updateGame(req, res, next) {
         const game = await Game.findByIdAndUpdate(
             id,
             { $set: updates },
-            { new: true, runValidators: true }
+            { returnDocument: "after", runValidators: true }
         );
 
         if (!game) {
