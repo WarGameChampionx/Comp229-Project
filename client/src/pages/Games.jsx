@@ -7,7 +7,8 @@ import {
   Trash2,
   X,
   Loader2,
-  RefreshCw
+  RefreshCw,
+  Target
 } from "lucide-react";
 
 import API from "../services/api";
@@ -381,31 +382,39 @@ function Games() {
 
       </div>
 
-      {/* Administrator-only CRUD controls */}
+      {/* Administrator-only management controls */}
       {isAdmin && (
         <div className="game-card-actions">
+          {/* Navigate to the selected game's challenges */}
+          <Link to={`/admin/games/${game._id}/challenges`}
+            state={{
+              gameName: game.name,
+              fromAdminDashboard: showBackToDashboard,
+            }}
+            className="games-manage-challenges">
+            <Target size={16} />
+            Manage Challenges
+          </Link>
 
+          {/* Edit the selected game */}
           <button
             type="button"
             className="edit-btn"
-            onClick={() => openEditForm(game)}
-          >
+            onClick={() => openEditForm(game)}>
             <Pencil size={16} />
             Edit
           </button>
 
+          {/* Delete the selected game */}
           <button
             type="button"
             className="delete-btn"
-            onClick={() => handleDelete(game._id)}
-          >
+            onClick={() => handleDelete(game._id)}>
             <Trash2 size={16} />
             Delete
           </button>
-
         </div>
       )}
-
     </div>
   ))}
 </div>
