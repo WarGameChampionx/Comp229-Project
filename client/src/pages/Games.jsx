@@ -12,6 +12,9 @@ import {
 
 import API from "../services/api";
 import "./Games.css";
+import { useAuth } from "../hooks/useAuth";
+import { Link } from "react-router-dom";
+
 
 function Games() {
   const [games, setGames] = useState([]);
@@ -27,7 +30,7 @@ function Games() {
     description: ""
   });
 
-  const isLoggedIn = Boolean(localStorage.getItem("token"));
+  const { isAdmin } = useAuth();
 
   // Get all games from MongoDB
   const fetchGames = async () => {
@@ -36,7 +39,10 @@ function Games() {
       setError("");
 
       const response = await API.get("/games");
-      setGames(response.data);
+      const gameList = Array.isArray(response.data) ? response.data : response.data.games;
+      if (!Array.isArray(gameList)) {
+        throw new Error("Invalid games API response");
+      }
     } catch (err) {
       setError(
         err.response?.data?.message || "Unable to load games."
@@ -52,9 +58,12 @@ function Games() {
   const loadInitialGames = async () => {
     try {
       const response = await API.get("/games");
-
+      const gameList = Array.isArray(response.data) ? response.data : response.data.games;
+      if (!Array.isArray(gameList)) {
+        throw new Error("Invalid games API response");
+      }
       if (!cancelled) {
-        setGames(response.data);
+        setGames(gameList);
       }
     } catch (err) {
       if (!cancelled) {
@@ -110,8 +119,8 @@ function Games() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!isLoggedIn) {
-      setError("Please log in to manage games.");
+    if (!isAdmin) {
+      setError("Administrator privileges are required to manage games.");
       return;
     }
 
@@ -149,8 +158,8 @@ function Games() {
 
   // Delete a game
   const handleDelete = async (id) => {
-    if (!isLoggedIn) {
-      setError("Please log in to manage games.");
+    if (!isAdmin) {
+      setError("Administrator privileges are required to delete games.");
       return;
     }
 
@@ -187,14 +196,13 @@ function Games() {
             the GameZone leaderboard.
           </p>
         </div>
-
-        <button
-          className="add-game-btn"
-          onClick={openCreateForm}
-        >
-          <Plus size={19} />
-          Add New Game
-        </button>
+        {isAdmin && (
+          <button
+            className="add-game-btn" onClick={openCreateForm}>
+            <Plus size={19} />
+              Add New Game
+          </button>
+        )}
       </div>
 
       {error && (
@@ -307,71 +315,93 @@ function Games() {
           <p>
             Be the first to add a game to GameZone!
           </p>
-
-          <button
-            className="add-game-btn"
-            onClick={openCreateForm}
-          >
-            <Plus size={18} />
-            Create First Game
-          </button>
+          {isAdmin && (
+            <button
+              className="add-game-btn" onClick={openCreateForm}>
+              <Plus size={18} />
+                Create First Game
+            </button>
+          )}
         </div>
 
       ) : (
 
-        <div className="games-grid">
+<div className="games-grid">
+  {games.map((game) => (
+    // Each game is displayed inside its own styled card.
+    <div className="game-card" key={game._id}>
 
-          {games.map((game) => (
+      {/* Purple game-controller icon */}
+      <div className="game-card-icon">
+        <Gamepad2 size={38} />
+      </div>
 
-            <div className="game-card" key={game._id}>
+      {/* Game information */}
+      <div className="game-card-content">
 
-              <div className="game-card-icon">
-                <Gamepad2 size={38} />
-              </div>
+        {/* Clickable game title */}
+        <h3>
+          <Link
+            to={`/games/${game._id}`}
+            className="game-title-link"
+          >
+            {game.name}
+          </Link>
+        </h3>
 
-              <div className="game-card-content">
+        {/* Description */}
+        <p>
+          {game.description || "No description available."}
+        </p>
 
-                <h3>{game.name}</h3>
+        {/* Creation date, if valid */}
+        {game.createdAt &&
+          !Number.isNaN(Date.parse(game.createdAt)) && (
+            <small>
+              Created:{" "}
+              {new Date(game.createdAt).toLocaleDateString()}
+            </small>
+          )}
 
-                <p>
-                  {game.description ||
-                    "No description available."}
-                </p>
+        {/* View Details is available to everyone */}
+        <Link
+          to={`/games/${game._id}`}
+          className="view-details-btn"
+        >
+          View Details
+        </Link>
 
-                <small>
-                  Created:{" "}
-                  {new Date(game.createdAt).toLocaleDateString()}
-                </small>
+      </div>
 
-              </div>
+      {/* Administrator-only CRUD controls */}
+      {isAdmin && (
+        <div className="game-card-actions">
 
-              {isLoggedIn && (
-                <div className="game-card-actions">
+          <button
+            type="button"
+            className="edit-btn"
+            onClick={() => openEditForm(game)}
+          >
+            <Pencil size={16} />
+            Edit
+          </button>
 
-                  <button
-                    className="edit-btn"
-                    onClick={() => openEditForm(game)}
-                  >
-                    <Pencil size={16} />
-                    Edit
-                  </button>
-
-                  <button
-                    className="delete-btn"
-                    onClick={() => handleDelete(game._id)}
-                  >
-                    <Trash2 size={16} />
-                    Delete
-                  </button>
-
-                </div>
-              )}
-
-            </div>
-
-          ))}
+          <button
+            type="button"
+            className="delete-btn"
+            onClick={() => handleDelete(game._id)}
+          >
+            <Trash2 size={16} />
+            Delete
+          </button>
 
         </div>
+      )}
+
+    </div>
+  ))}
+</div>
+
       )}
 
     </section>

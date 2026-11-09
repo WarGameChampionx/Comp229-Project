@@ -1,76 +1,119 @@
 
+import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+
+import {
+  Gamepad2,
+  House,
+  Trophy,
+  UserRound,
+  LogOut,
+  Menu,
+  X,
+} from "lucide-react";
+
 import { useAuth } from "../hooks/useAuth";
-import logo from "../assets/logo.png";
 
 function Navbar() {
-  // React Router hook for programmatic navigation.
   const navigate = useNavigate();
+  const { user, isAuthenticated, signOut } = useAuth();
 
-  // Retrieve the current authentication state and logout function.
-  const { user, isAuthenticated, isAdmin, signOut } = useAuth();
+  // Controls the mobile navigation menu.
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  // Log out the user and redirect to the Home page.
   function handleLogout() {
     signOut();
+    setMenuOpen(false);
     navigate("/", { replace: true });
   }
 
-  return (
-    <header className="site-header">
-      <nav className="navbar">
+  function closeMenu() {
+    setMenuOpen(false);
+  }
 
-        {/* Team logo links to Home */}
-        <NavLink className="brand" to="/">
-          <img
-            src={logo}
-            alt="CTRL-ALT-Elite logo"
-            className="brand-logo"
-          />
+  return (
+    <header className="gz-site-header">
+      <nav className="gz-navbar">
+
+        {/* GameZone branding */}
+        <NavLink
+          to="/"
+          className="gz-brand"
+          onClick={closeMenu}
+          aria-label="GameZone Home"
+        >
+          <Gamepad2 size={35} />
+          <span>
+            Game<span className="gz-purple-text">Zone</span>
+          </span>
         </NavLink>
 
-        <div className="nav-links">
+        {/* Mobile menu toggle */}
+        <button
+          type="button"
+          className="gz-menu-toggle"
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          {menuOpen ? <X /> : <Menu />}
+        </button>
 
-          {/* Public navigation */}
-          <NavLink to="/" end>Home</NavLink>
-          <NavLink to="/games">Games</NavLink>
-          <NavLink to="/leaderboard">Leaderboard</NavLink>
+        {/* Navigation links */}
+        <div
+          className={`gz-nav-links ${
+            menuOpen ? "gz-nav-open" : ""
+          }`}
+        >
+          <NavLink to="/" end onClick={closeMenu}>
+            <House size={19} />
+            Home
+          </NavLink>
 
-          {/* Show different navigation links based on authentication */}
+          <NavLink to="/games" onClick={closeMenu}>
+            <Gamepad2 size={19} />
+            Games
+          </NavLink>
+
+          <NavLink to="/leaderboard" onClick={closeMenu}>
+            <Trophy size={19} />
+            Leaderboard
+          </NavLink>
+
           {isAuthenticated ? (
             <>
-              {/* Only administrators see Admin Games */}
-              {isAdmin && (
-                <NavLink to="/admin/games">
-                  Admin Games
-                </NavLink>
-              )}
-
-              {/* Display the logged-in username */}
-              <span className="nav-username">
-                {user.username}
+              <span className="gz-username">
+                <UserRound size={19} />
+                {user?.username}
               </span>
 
-              {/* Logout clears the user's session */}
               <button
                 type="button"
-                className="nav-logout"
+                className="gz-logout-btn"
                 onClick={handleLogout}
               >
+                <LogOut size={18} />
                 Logout
               </button>
             </>
           ) : (
             <>
-              {/* Visitors see Login and Register */}
-              <NavLink to="/login">Login</NavLink>
-              <NavLink to="/register" className="register-link">
+              <NavLink to="/login" onClick={closeMenu}>
+                <UserRound size={19} />
+                Login
+              </NavLink>
+
+              <NavLink
+                to="/register"
+                className="gz-register-btn"
+                onClick={closeMenu}
+              >
                 Register
               </NavLink>
             </>
           )}
-
         </div>
+
       </nav>
     </header>
   );

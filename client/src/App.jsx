@@ -5,10 +5,9 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Games from "./pages/Games";
 import GameDetails from "./pages/GameDetails";
-import AdminGames from "./pages/AdminGames";
 import { AuthProvider } from "./context/AuthProvider";
 import ProtectedRoute from "./components/ProtectedRoute";
-import AdminRoute from "./components/AdminRoute";
+
 
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -44,11 +43,6 @@ function App() {
             {/* SCRUM-22: Leaderboard */}
             <Route path="/leaderboard" element={<ComingSoon title="Leaderboard" />}/>
             <Route path="*" element={<ComingSoon title="404 - Page Not Found" />}/>
-            {/* Administrator-only pages */}
-            <Route element={<AdminRoute />}>
-              <Route path="/admin/games" element={<AdminGames />} />
-            </Route>
-
             {/* Authenticated user pages */}
             <Route element={<ProtectedRoute />}>
               <Route path="/scores/submit" element={<ComingSoon title="Submit Score" />}/>

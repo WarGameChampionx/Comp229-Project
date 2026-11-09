@@ -58,7 +58,8 @@ a {
 
 .nav-links {
   display: flex;
-  flex-wrap: center;
+  flex-wrap: wrap;
+  align-items: center;
   gap: 18px;
 }
 
@@ -66,9 +67,6 @@ a {
   color: #c4c5d3;
 }
 
-.nav-links a {
-  color: #c4c5d3;
-}
 .nav-links a:hover,
 .nav-links a.active {
   color: #f3c969;
@@ -358,67 +356,125 @@ a {
   margin: 40px auto;
 }
 
-/* Responsive game grid */
-.games-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 24px;
-  margin-top: 30px;
-}
-
-/* Individual game cards */
-.game-card {
-  background-color: #1e2d45;
-  border: 1px solid #34445d;
-  border-radius: 10px;
-  padding: 24px;
-}
-
-/* Game titles */
-.game-card h2 {
-  margin-top: 0;
-  color: #f1f5f9;
-}
-
-/* Game description */
-.game-card p {
-  color: #cbd5e1;
-  line-height: 1.6;
-}
-
-/* View Details link */
-.game-card a {
-  display: inline-block;
-  margin-top: 12px;
-  color: #f3c969;
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.game-card a:hover {
-  text-decoration: underline;
-}
-
 /* Navigation back to the Games listing */
-.back-link {
-  display: inline-block;
-  margin-bottom: 24px;
-  color: #f3c969;
-  text-decoration: none;
-  font-weight: 600;
-}
+
 
 .back-link:hover {
   text-decoration: underline;
 }
 
 /* Selected game information */
+
+/* =========================================
+   GAMEZONE - GAME DETAILS PAGE
+   ========================================= */
+
+/* Main page container */
+.page-container {
+  width: min(1100px, 90%);
+  margin: 40px auto;
+}
+
+/* Back to Games link */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 24px;
+
+  color: #a78bfa;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.back-link:hover {
+  color: #c4b5fd;
+  text-decoration: underline;
+}
+
+/* Individual game details card */
 .game-details-card {
   max-width: 800px;
-  background-color: #1e2d45;
-  border: 1px solid #34445d;
-  border-radius: 12px;
+  background: #151827;
+  border: 1px solid #282b40;
+  border-radius: 13px;
   padding: 32px;
+
+  transition: border-color 0.25s ease;
+}
+
+.game-details-card:hover {
+  border-color: #8054ef;
+}
+
+/* Game title */
+.game-details-card h1 {
+  margin-top: 0;
+  margin-bottom: 20px;
+
+  font-size: clamp(28px, 4vw, 38px);
+  color: #ffffff;
+}
+
+/* Game description */
+.game-details-card p {
+  color: #a6a8ba;
+  line-height: 1.8;
+  font-size: 16px;
+}
+
+/* Action button container */
+.game-details-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 28px;
+}
+
+/* Primary game action links */
+.game-action-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  padding: 12px 20px;
+
+  background: #8054ef;
+  border: 1px solid #8054ef;
+  border-radius: 8px;
+  color: #ffffff;
+
+  text-decoration: none;
+  font-weight: 700;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s;
+}
+
+.game-action-link:hover {
+  background: #6940d7;
+  border-color: #6940d7;
+  color: #ffffff;
+}
+
+/* Keyboard accessibility */
+.back-link:focus-visible,
+.game-action-link:focus-visible {
+  outline: 2px solid #a78bfa;
+  outline-offset: 3px;
+}
+
+/* Mobile adjustments */
+@media (max-width: 600px) {
+  .game-details-card {
+    padding: 22px;
+  }
+
+  .game-details-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
 
 .game-details-card h1 {
@@ -432,26 +488,10 @@ a {
   line-height: 1.7;
 }
 
-/* Game-related actions */
-.game-details-actions {
-  margin-top: 28px;
-}
-
-.game-action-link {
-  display: inline-block;
-  padding: 12px 18px;
-  border: 1px solid #f3c969;
-  border-radius: 8px;
-  color: #f3c969;
-  text-decoration: none;
-  font-weight: 600;
-}
-
 .game-action-link:hover {
   background-color: #f3c969;
   color: #101827;
 }
-
 
 /* Administrator page layout */
 .admin-layout {
@@ -675,4 +715,344 @@ a {
 
 .auth-footer a {
   color: #c4b5fd;
+}
+
+/* GameZone hero background */
+.gz-hero {
+  min-height: 590px;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(
+    110deg,
+    #0b0d17 20%,
+    #151225 55%,
+    #292043 100%
+  );
+}
+
+/* Main two-column layout */
+.gz-hero-inner {
+  width: min(1260px, 82%);
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 60px;
+
+  padding: 95px 0 35px;
+}
+
+/* Welcome heading */
+.gz-hero-eyebrow {
+  color: #9870ff;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  margin: 0 0 35px;
+}
+
+/* Main headline */
+.gz-hero-title {
+  margin: 0 0 30px;
+  font-size: clamp(48px, 5.3vw, 82px);
+  font-weight: 900;
+  line-height: 1.13;
+  letter-spacing: -2px;
+}
+
+/* Description */
+.gz-hero-description {
+  max-width: 620px;
+  color: #b9bbce;
+  font-size: 20px;
+  line-height: 1.8;
+  margin-bottom: 38px;
+}
+
+/* Controller area */
+.gz-hero-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Purple outline controller */
+.gz-hero-controller {
+  width: 240px;
+  height: 240px;
+  color: #8054d6;
+  stroke-width: 1.4;
+  filter: drop-shadow(
+    0 0 28px rgba(128, 84, 239, 0.25)
+  );
+}
+
+.gz-site-header {
+  background: #11111f;
+  border-bottom: 1px solid #303047;
+}
+
+.gz-navbar {
+  width: min(1320px, 86%);
+  min-height: 100px;
+  margin: 0 auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+}
+
+.gz-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+
+  color: white;
+  font-size: 29px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.gz-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+}
+
+.gz-nav-links .gz-register-btn {
+  background: #8054ef;
+  color: white;
+  padding: 16px 30px;
+  border-radius: 10px;
+  font-weight: 700;
+}
+
+
+/* =========================================
+   GAMEZONE - ADDITIONAL NAVBAR STYLING
+   ========================================= */
+
+/* Purple accent text used in GameZone branding */
+.gz-purple-text {
+  color: #9870ff;
+}
+
+/* Purple controller icon beside GameZone logo */
+.gz-brand > svg {
+  color: #9870ff;
+  flex-shrink: 0;
+}
+
+/* Navigation links and icons */
+.gz-nav-links a,
+.gz-username {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+
+  color: #c5c5d5;
+  font-size: 17px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+/* Active and hovered navigation links */
+.gz-nav-links a:hover,
+.gz-nav-links a.active:not(.gz-register-btn) {
+  color: #a78bfa;
+}
+
+/* Keep the Register button purple */
+.gz-nav-links .gz-register-btn {
+  color: white;
+}
+
+.gz-nav-links .gz-register-btn:hover {
+  background: #6940d7;
+  color: white;
+}
+
+/* Logged-in username */
+.gz-username {
+  color: #c4b5fd;
+  font-weight: 600;
+}
+
+/* Logout button */
+.gz-logout-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  padding: 12px 18px;
+  background: transparent;
+  border: 1px solid #55516c;
+  border-radius: 8px;
+  color: white;
+
+  font: inherit;
+  cursor: pointer;
+}
+
+.gz-logout-btn:hover {
+  background: #302546;
+}
+
+/* Mobile menu toggle */
+.gz-menu-toggle {
+  display: none;
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+/* =========================================
+   GAMEZONE - HERO TYPOGRAPHY
+   ========================================= */
+
+.gz-hero-title span {
+  display: block;
+}
+
+.gz-hero-title span:first-child {
+  color: #ffffff;
+}
+
+/* Prevent headline wrapping on desktop */
+@media (min-width: 951px) {
+  .gz-hero-title span {
+    white-space: nowrap;
+  }
+}
+
+/* =========================================
+   GAMEZONE - HOME PAGE BUTTONS
+   ========================================= */
+
+.gz-hero-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+
+.gz-primary-btn,
+.gz-secondary-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  padding: 16px 28px;
+  border-radius: 9px;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.gz-primary-btn {
+  color: white;
+  background: #8054ef;
+}
+
+.gz-primary-btn:hover {
+  background: #6940d7;
+}
+
+.gz-secondary-btn {
+  background: transparent;
+  color: white;
+  border: 1px solid #55516c;
+}
+
+.gz-secondary-btn:hover {
+  background: #302546;
+}
+
+/* =========================================
+   GAMEZONE - RESPONSIVE DESIGN
+   ========================================= */
+
+@media (max-width: 950px) {
+  .gz-navbar {
+    position: relative;
+    min-height: 80px;
+  }
+
+  .gz-menu-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .gz-nav-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 20;
+
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+
+    background: #11111f;
+    border: 1px solid #303047;
+    border-radius: 0 0 10px 10px;
+    padding: 12px;
+  }
+
+  .gz-nav-links.gz-nav-open {
+    display: flex;
+  }
+
+  .gz-nav-links a,
+  .gz-username,
+  .gz-logout-btn {
+    padding: 14px;
+  }
+
+  .gz-hero-inner {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .gz-hero-controller {
+    width: 200px;
+    height: 200px;
+  }
+}
+
+@media (max-width: 600px) {
+  .gz-brand {
+    font-size: 24px;
+  }
+
+  .gz-hero-inner {
+    width: 88%;
+    padding: 65px 0;
+  }
+
+  .gz-hero-title {
+    font-size: clamp(32px, 8vw, 48px);
+    letter-spacing: -1px;
+  }
+
+  .gz-hero-title span {
+    white-space: normal;
+  }
+
+  .gz-hero-description {
+    font-size: 17px;
+  }
+
+  .gz-hero-visual {
+    margin-top: 20px;
+  }
 }

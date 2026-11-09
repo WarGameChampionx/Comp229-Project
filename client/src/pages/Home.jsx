@@ -1,26 +1,51 @@
 
 import { Link } from "react-router-dom";
+import { Gamepad2, Trophy } from "lucide-react";
 
 function Home() {
   return (
-    <section className="hero">
-      <p className="eyebrow">CTRL-ALT-Elite Presents</p>
+    <section className="gz-hero">
+      <div className="gz-hero-inner">
 
-      <h1>Arcade Leaderboard</h1>
+        {/* Left side: Welcome and navigation */}
+        <div className="gz-hero-content">
+          <p className="gz-hero-eyebrow">
+            WELCOME TO GAMEZONE
+          </p>
 
-      <p>
-        Discover arcade games, submit your personal best,
-        and compete for a place on the leaderboard.
-      </p>
+          <h1 className="gz-hero-title">
+            <span>PLAY HARD.</span>
+            <span className="gz-purple-text">
+              CLIMB THE RANKS.
+            </span>
+          </h1>
 
-      <div className="hero-actions">
-        <Link className="button" to="/games">
-          Explore Games
-        </Link>
+          <p className="gz-hero-description">
+            Challenge your friends, compete with other
+            players, track your scores and become a
+            gaming champion.
+          </p>
 
-        <Link className="button button-outline" to="/leaderboard">
-          View Leaderboard
-        </Link>
+          <div className="gz-hero-actions">
+            <Link to="/games" className="gz-primary-btn">
+              Explore Games
+            </Link>
+
+            <Link
+              to="/leaderboard"
+              className="gz-secondary-btn"
+            >
+              <Trophy size={20} />
+              View Leaderboard
+            </Link>
+          </div>
+        </div>
+
+        {/* Right side: Game-controller illustration */}
+        <div className="gz-hero-visual" aria-hidden="true">
+          <Gamepad2 className="gz-hero-controller" />
+        </div>
+
       </div>
     </section>
   );

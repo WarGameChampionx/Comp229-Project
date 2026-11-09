@@ -315,3 +315,34 @@
     padding: 20px;
   }
 }
+
+/* Clickable game title */
+.game-title-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.game-title-link:hover {
+  color: #9870fa;
+}
+
+/* View Details link */
+.view-details-btn {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 16px;
+  padding: 10px 16px;
+
+  color: #a78bfa;
+  background: rgba(139, 92, 246, 0.1);
+  border: 1px solid #7c4fd0;
+  border-radius: 8px;
+
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+.view-details-btn:hover {
+  background: rgba(139, 92, 246, 0.22);
+}

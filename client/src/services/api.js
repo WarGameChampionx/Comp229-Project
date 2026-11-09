@@ -1,18 +1,21 @@
 
-
 import axios from "axios";
 
-// Axios API client used by the Games page and other components.
+// Shared API base URL for Axios and Fetch.
+// Relative /api requests are forwarded through Vite's proxy.
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL ||
+  import.meta.env.VITE_API_BASE_URL ||
+  "/api";
+
+// Axios client used by the Games page.
 const API = axios.create({
-  baseURL:
-    import.meta.env.VITE_API_URL ||
-    import.meta.env.VITE_API_BASE_URL ||
-    "/api",
+  baseURL: API_BASE_URL,
 });
 
-// Automatically attach the saved authentication token.
+// Attach the JWT from the shared session storage.
 API.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
 
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
@@ -21,10 +24,7 @@ API.interceptors.request.use((config) => {
   return config;
 });
 
-// Fetch-based API helper used by the remote frontend code.
-const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || "/api";
-
+// Fetch-based API helper used by existing components.
 export async function apiRequest(endpoint, options = {}) {
   const {
     method = "GET",
@@ -39,21 +39,28 @@ export async function apiRequest(endpoint, options = {}) {
     requestHeaders["Content-Type"] = "application/json";
   }
 
-  const authToken = token || localStorage.getItem("token");
+  // Prefer an explicitly provided token.
+  // Otherwise use the authenticated session.
+  const authToken =
+    token || sessionStorage.getItem("token");
 
   if (authToken) {
     requestHeaders.Authorization = `Bearer ${authToken}`;
   }
 
-  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-    method,
-    headers: requestHeaders,
-    ...(body !== undefined
-      ? { body: JSON.stringify(body) }
-      : {}),
-  });
+  const response = await fetch(
+    `${API_BASE_URL}${endpoint}`,
+    {
+      method,
+      headers: requestHeaders,
+      ...(body !== undefined
+        ? { body: JSON.stringify(body) }
+        : {}),
+    }
+  );
 
-  const contentType = response.headers.get("content-type") || "";
+  const contentType =
+    response.headers.get("content-type") || "";
 
   const data = contentType.includes("application/json")
     ? await response.json()
@@ -61,7 +68,9 @@ export async function apiRequest(endpoint, options = {}) {
 
   if (!response.ok) {
     const error = new Error(
-      data?.message || `HTTP error ${response.status}`
+      typeof data === "object" && data !== null
+        ? data.message || `HTTP error ${response.status}`
+        : `HTTP error ${response.status}`
     );
 
     error.status = response.status;
