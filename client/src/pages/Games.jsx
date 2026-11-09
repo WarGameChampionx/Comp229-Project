@@ -44,7 +44,7 @@ function Games() {
         throw new Error("Invalid games API response");
       }
       setGames(gameList);
-      
+
     } catch (err) {
       setError(
         err.response?.data?.message || "Unable to load games."
