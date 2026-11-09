@@ -37,6 +37,7 @@ app.use("/api/challenges", challengeRoutes);
 // SCRUM-21: Leaderboard ranking API.
 app.use("/api/leaderboards", leaderboardRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/users", userRoutes);
 
 // Centralized error handler.
 app.use((err, req, res, next) => {
