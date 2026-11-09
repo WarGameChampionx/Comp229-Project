@@ -1030,3 +1030,14 @@ a {
     margin-top: 20px;
   }
 }
+
+/* Admin Dashboard navigation link */
+.gz-nav-links a[href="/admin"] {
+  color: #c4b5fd;
+  font-weight: 600;
+}
+
+.gz-nav-links a[href="/admin"]:hover,
+.gz-nav-links a[href="/admin"].active {
+  color: #a78bfa;
+}

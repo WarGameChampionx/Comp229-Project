@@ -346,3 +346,20 @@
 .view-details-btn:hover {
   background: rgba(139, 92, 246, 0.22);
 }
+
+/* Return link shown only when arriving from Admin Dashboard */
+.games-back-dashboard {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 25px;
+
+  color: #a78bfa;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.games-back-dashboard:hover {
+  color: #c4b5fd;
+  text-decoration: underline;
+}
