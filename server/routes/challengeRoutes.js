@@ -1,31 +1,41 @@
 
 const express = require("express");
-const mongoose = require("mongoose");
-const Challenge = require("../models/Challenge");
+
+const authenticate = require("../middleware/authenticate");
+const authorize = require("../middleware/authorize");
+
+const {
+  getChallenges,
+  createChallenge,
+  updateChallenge,
+  deleteChallenge
+} = require("../controllers/challengeController");
 
 const router = express.Router();
 
-// GET /api/challenges?gameId=...
-// Public endpoint: retrieve challenges belonging to a game.
-router.get("/", async (req, res, next) => {
-  try {
-    const { gameId } = req.query;
+// Public: retrieve challenges for a selected game.
+router.get("/", getChallenges);
 
-    if (!mongoose.isValidObjectId(gameId)) {
-      return res.status(400).json({
-        message: "A valid gameId is required"
-      });
-    }
+// Administrator-only CRUD operations.
+router.post(
+  "/",
+  authenticate,
+  authorize("admin"),
+  createChallenge
+);
 
-    const challenges = await Challenge.find({ gameId })
-      .select("_id gameId name")
-      .sort({ name: 1 })
-      .lean();
+router.patch(
+  "/:id",
+  authenticate,
+  authorize("admin"),
+  updateChallenge
+);
 
-    return res.status(200).json({ challenges });
-  } catch (error) {
-    next(error);
-  }
-});
+router.delete(
+  "/:id",
+  authenticate,
+  authorize("admin"),
+  deleteChallenge
+);
 
 module.exports = router;

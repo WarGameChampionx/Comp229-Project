@@ -363,3 +363,25 @@
   color: #c4b5fd;
   text-decoration: underline;
 }
+
+/* Admin-only Manage Challenges link */
+.games-manage-challenges {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  border: 1px solid #8054ef;
+  border-radius: 8px;
+  background: #25203b;
+  color: #c4b5fd;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.games-manage-challenges:hover {
+  background: #39305c;
+  border-color: #a78bfa;
+  color: #ffffff;
+}

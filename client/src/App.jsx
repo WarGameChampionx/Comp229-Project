@@ -13,6 +13,7 @@ import ManageUsers from "./pages/ManageUsers";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import AdminDashboard from "./pages/AdminDashboard";
+import ManageChallenges from "./pages/ManageChallenges";
 
 
 // Temporary placeholder until the assigned developer
@@ -51,6 +52,7 @@ function App() {
             <Route element={<AdminRoute />}>
               <Route path="/admin" element={<AdminDashboard />} />
               <Route path="/admin/users" element={<ManageUsers />} />
+              <Route path="/admin/games/:gameId/challenges" element={<ManageChallenges />}/>
             </Route>
         </Routes>
       </main>
