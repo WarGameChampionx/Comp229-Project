@@ -38,8 +38,6 @@ function App() {
             {/* SCRUM-17: Game pages */}
             <Route path="/games" element={<Games />} />
             <Route path="/games/:id" element={<GameDetails />} />
-            {/* SCRUM-20: Score submission */}
-            <Route path="/scores/submit" element={<ComingSoon title="Submit Score" />}/>
             {/* SCRUM-22: Leaderboard */}
             <Route path="/leaderboard" element={<ComingSoon title="Leaderboard" />}/>
             <Route path="*" element={<ComingSoon title="404 - Page Not Found" />}/>
