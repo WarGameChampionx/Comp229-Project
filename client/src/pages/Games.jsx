@@ -13,7 +13,7 @@ import {
 import API from "../services/api";
 import "./Games.css";
 import { useAuth } from "../hooks/useAuth";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 
 function Games() {
@@ -24,13 +24,14 @@ function Games() {
   const [showForm, setShowForm] = useState(false);
   const [editingGame, setEditingGame] = useState(null);
   const [saving, setSaving] = useState(false);
+  const location = useLocation();
+  const { isAdmin } = useAuth();
+  const showBackToDashboard = isAdmin && location.state?.fromAdminDashboard === true;
 
   const [formData, setFormData] = useState({
     name: "",
     description: ""
   });
-
-  const { isAdmin } = useAuth();
 
   // Get all games from MongoDB
   const fetchGames = async () => {
@@ -189,6 +190,11 @@ function Games() {
   return (
     <section className="games-page" id="games">
 
+      {showBackToDashboard && (
+        <Link to="/admin" className="games-back-dashboard">
+          ← Back to Admin Dashboard
+        </Link>
+      )}
       <div className="games-header">
         <div>
           <span className="tag">DISCOVER & COMPETE</span>

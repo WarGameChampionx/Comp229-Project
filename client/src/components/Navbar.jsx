@@ -10,13 +10,14 @@ import {
   LogOut,
   Menu,
   X,
+  ShieldCheck
 } from "lucide-react";
 
 import { useAuth } from "../hooks/useAuth";
 
 function Navbar() {
   const navigate = useNavigate();
-  const { user, isAuthenticated, signOut } = useAuth();
+  const { user, isAuthenticated, isAdmin, signOut } = useAuth();
 
   // Controls the mobile navigation menu.
   const [menuOpen, setMenuOpen] = useState(false);
@@ -79,6 +80,14 @@ function Navbar() {
             <Trophy size={19} />
             Leaderboard
           </NavLink>
+
+          {/* Only administrators can see the Admin Dashboard link */}
+          {isAdmin && (
+            <NavLink to="/admin" onClick={closeMenu}>
+              <ShieldCheck size={19} />
+              Admin Dashboard
+            </NavLink>
+          )}
 
           {isAuthenticated ? (
             <>

@@ -7,11 +7,13 @@ import Games from "./pages/Games";
 import GameDetails from "./pages/GameDetails";
 import { AuthProvider } from "./context/AuthProvider";
 import ProtectedRoute from "./components/ProtectedRoute";
+import AdminRoute from "./components/AdminRoute";
 import Leaderboard from "./pages/Leaderboard";
-
-
+import ManageUsers from "./pages/ManageUsers";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import AdminDashboard from "./pages/AdminDashboard";
+
 
 // Temporary placeholder until the assigned developer
 // implements the corresponding feature.
@@ -45,6 +47,10 @@ function App() {
             {/* Authenticated user pages */}
             <Route element={<ProtectedRoute />}>
               <Route path="/scores/submit" element={<ComingSoon title="Submit Score" />}/>
+            </Route>
+            <Route element={<AdminRoute />}>
+              <Route path="/admin" element={<AdminDashboard />} />
+              <Route path="/admin/users" element={<ManageUsers />} />
             </Route>
         </Routes>
       </main>
