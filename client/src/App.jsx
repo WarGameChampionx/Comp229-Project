@@ -7,6 +7,7 @@ import Games from "./pages/Games";
 import GameDetails from "./pages/GameDetails";
 import { AuthProvider } from "./context/AuthProvider";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Leaderboard from "./pages/Leaderboard";
 
 
 import Login from "./pages/Login";
@@ -39,7 +40,7 @@ function App() {
             <Route path="/games" element={<Games />} />
             <Route path="/games/:id" element={<GameDetails />} />
             {/* SCRUM-22: Leaderboard */}
-            <Route path="/leaderboard" element={<ComingSoon title="Leaderboard" />}/>
+            <Route path="/leaderboard" element={<Leaderboard />}/>
             <Route path="*" element={<ComingSoon title="404 - Page Not Found" />}/>
             {/* Authenticated user pages */}
             <Route element={<ProtectedRoute />}>
