@@ -10,7 +10,8 @@ import {
   LogOut,
   Menu,
   X,
-  ShieldCheck
+  ShieldCheck,
+  Send
 } from "lucide-react";
 
 import { useAuth } from "../hooks/useAuth";
@@ -80,6 +81,14 @@ function Navbar() {
             <Trophy size={19} />
             Leaderboard
           </NavLink>
+
+          {/* Logged-in users can submit scores */}
+          {isAuthenticated && (
+            <NavLink to="/scores/submit" onClick={closeMenu}>
+              <Send size={19} />
+              Submit Score
+            </NavLink>
+          )}
 
           {/* Only administrators can see the Admin Dashboard link */}
           {isAdmin && (

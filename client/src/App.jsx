@@ -14,6 +14,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import AdminDashboard from "./pages/AdminDashboard";
 import ManageChallenges from "./pages/ManageChallenges";
+import SubmitScore from "./pages/SubmitScore";
 
 
 // Temporary placeholder until the assigned developer
@@ -47,7 +48,7 @@ function App() {
             <Route path="*" element={<ComingSoon title="404 - Page Not Found" />}/>
             {/* Authenticated user pages */}
             <Route element={<ProtectedRoute />}>
-              <Route path="/scores/submit" element={<ComingSoon title="Submit Score" />}/>
+              <Route path="/scores/submit" element={<SubmitScore />}/>
             </Route>
             <Route element={<AdminRoute />}>
               <Route path="/admin" element={<AdminDashboard />} />
