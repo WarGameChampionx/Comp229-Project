@@ -1,13 +1,8 @@
+
 import { useEffect, useState } from "react";
-import { useAuth } from "../hooks/useAuth"; // Adjust the import path based on your project structure
-import "./SubmitScore.css"; // Adjust the path based on your project structure
-
-const API_BASE_URL = "http://localhost:5000"; // Replace with your actual API base URL
-
-const GAMES_ENDPOINT = '/api/games'; // Replace with your actual endpoint for fetching games
-const SCORES_ENDPOINT = '/api/scores'; // Replace with your actual endpoint for submitting scores
-
-// const SUBMIT_SCORE_ENDPOINT = '/api/scores'; // Replace with your actual endpoint for submitting scores
+import { useAuth } from "../hooks/useAuth";
+import { apiRequest } from "../services/api";
+import "./SubmitScore.css";
 
 function SubmitScore() {
     const [games, setGames] = useState([]);
@@ -16,36 +11,30 @@ function SubmitScore() {
     const [selectedChallenge, setSelectedChallenge] = useState("");
     const [points, setPoints] = useState("");
     const [loadingGames, setLoadingGames] = useState(true);
-    const [loadingChallenges, setLoadingChallenges] = useState(false); 
+    const [loadingChallenges, setLoadingChallenges] = useState(false);
     const [submitting, setSubmitting] = useState(false);
     const [message, setMessage] = useState("");
-    const [messageType, setMessageType] = useState(""); // "success" or "error"
-    const { token, isAuthenticated } = useAuth(); 
+    const [messageType, setMessageType] = useState("");
 
+    const { token, isAuthenticated } = useAuth();
+
+    // Load available games.
     useEffect(() => {
         async function loadGames() {
             setLoadingGames(true);
 
             try {
-                const response = await fetch(
-                    `${API_BASE_URL}${GAMES_ENDPOINT}`
-                );
+                const data = await apiRequest("/games");
 
-                if (!response.ok) {
-                    throw new Error("Failed to fetch games.");  
+                const availableGames = Array.isArray(data)
+                    ? data
+                    : data.games;
+
+                if (!Array.isArray(availableGames)) {
+                    throw new Error("Unexpected games response");
                 }
 
-                const data = await response.json();
-
-                const avalibleGames = Array.isArray(data) 
-                ? data 
-                : data.games;
-
-                if (!Array.isArray(avalibleGames)) {
-                    throw new Error("Unexpected games response"); 
-                }
-
-                setGames(avalibleGames);
+                setGames(availableGames);
             } catch (error) {
                 setMessage(`Error loading games: ${error.message}`);
                 setMessageType("error");
@@ -53,9 +42,11 @@ function SubmitScore() {
                 setLoadingGames(false);
             }
         }
+
         loadGames();
     }, []);
 
+    // Load challenges when a game is selected.
     const handleGameChange = async (event) => {
         const gameId = event.target.value;
 
@@ -66,21 +57,13 @@ function SubmitScore() {
         setMessageType("");
 
         if (!gameId) {
-            return; 
+            return;
         }
 
         setLoadingChallenges(true);
 
         try {
-            const response = await fetch(
-                `${API_BASE_URL}${GAMES_ENDPOINT}/${gameId}` 
-            );
-
-            if (!response.ok) {
-                throw new Error("Failed to fetch challenges.");
-            }
-
-            const data = await response.json();
+            const data = await apiRequest(`/games/${gameId}`);
 
             if (!Array.isArray(data.challenges)) {
                 throw new Error("Unexpected challenges response");
@@ -93,40 +76,36 @@ function SubmitScore() {
         } finally {
             setLoadingChallenges(false);
         }
-    }; 
+    };
 
+    // Submit score.
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        setMessage(""); 
+        setMessage("");
         setMessageType("");
 
-        // Check login status 
-        
         if (!isAuthenticated || !token) {
             setMessage("You must be logged in to submit a score.");
             setMessageType("error");
             return;
         }
 
-        // Validate game selection.
         if (!selectedGame) {
             setMessage("Please select a game.");
             setMessageType("error");
             return;
         }
 
-        // Validate challenge selection.
         if (!selectedChallenge) {
             setMessage("Please select a challenge.");
             setMessageType("error");
             return;
         }
 
-        // Validate score.
         if (
-            points.trim() === "" || 
-            !/^\d+$/.test(points.trim()) || 
+            points.trim() === "" ||
+            !/^\d+$/.test(points.trim()) ||
             !Number.isSafeInteger(Number(points))
         ) {
             setMessage("Please enter a valid non-negative whole number.");
@@ -135,31 +114,18 @@ function SubmitScore() {
         }
 
         setSubmitting(true);
-        
+
         try {
-            const response = await fetch(
-                `${API_BASE_URL}${SCORES_ENDPOINT}`, 
-                {
+            await apiRequest("/scores", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`
-                },
-                body: JSON.stringify({ 
-                    gameId: selectedGame, 
+                token,
+                body: {
+                    gameId: selectedGame,
                     points: Number(points),
                     challengeId: selectedChallenge,
-                    value: Number(points) 
-                }) 
+                    value: Number(points)
+                }
             });
-
-            const data = await response.json().catch(() => ({})); // Handle cases where response is not JSON
-
-            if (!response.ok) {
-                throw new Error(
-                    data.message || "Failed to submit score."
-                );
-            }
 
             setMessage("Score submitted successfully!");
             setMessageType("success");
@@ -177,21 +143,20 @@ function SubmitScore() {
         }
     };
 
-
-    // The page display 
+    // Page display.
     return (
         <main className="submit-score-page">
             <div className="submit-score-container">
                 <header className="submit-score-header">
                     <h1>Submit Your Score</h1>
                     <p>
-                        Select a game and challenge to submit your score. Make sure you are logged in to submit.
+                        Select a game and challenge to submit your score.
+                        Make sure you are logged in to submit.
                     </p>
-
                 </header>
 
                 <section className="submit-score-card">
-                   {loadingGames ? (
+                    {loadingGames ? (
                         <p className="submit-score-status">
                             Loading games...
                         </p>
@@ -200,9 +165,9 @@ function SubmitScore() {
                             No games available.
                         </p>
                     ) : (
-                        <form 
-                        className="submit-score-form"
-                        onSubmit={handleSubmit}
+                        <form
+                            className="submit-score-form"
+                            onSubmit={handleSubmit}
                         >
                             <div className="form-group">
                                 <label htmlFor="game">Game:</label>
@@ -214,8 +179,12 @@ function SubmitScore() {
                                     required
                                 >
                                     <option value="">Select a game</option>
+
                                     {games.map((game) => (
-                                        <option key={game._id} value={game._id}>
+                                        <option
+                                            key={game._id}
+                                            value={game._id}
+                                        >
                                             {game.name}
                                         </option>
                                     ))}
@@ -241,17 +210,20 @@ function SubmitScore() {
                                             id="challenge"
                                             value={selectedChallenge}
                                             onChange={(event) =>
-                                                setSelectedChallenge(event.target.value)
+                                                setSelectedChallenge(
+                                                    event.target.value
+                                                )
                                             }
                                             required
                                         >
                                             <option value="">
                                                 Choose a challenge
                                             </option>
+
                                             {challenges.map((challenge) => (
-                                                <option 
-                                                key={challenge._id} 
-                                                value={challenge._id}
+                                                <option
+                                                    key={challenge._id}
+                                                    value={challenge._id}
                                                 >
                                                     {challenge.name}
                                                 </option>
@@ -262,34 +234,41 @@ function SubmitScore() {
                             )}
 
                             <div>
-                                <label htmlFor="points">Enter Your Score:</label>
+                                <label htmlFor="points">
+                                    Enter Your Score:
+                                </label>
+
                                 <input
                                     id="points"
                                     type="number"
                                     min="0"
                                     step="1"
                                     value={points}
-                                    onChange={(event) => 
+                                    onChange={(event) =>
                                         setPoints(event.target.value)
                                     }
                                     required
                                 />
                             </div>
+
                             <button
                                 className="submit-score-btn"
                                 type="submit"
                                 disabled={
-                                    submitting || 
+                                    submitting ||
                                     loadingGames ||
                                     loadingChallenges ||
                                     !selectedGame ||
-                                    !selectedChallenge 
-                                } 
+                                    !selectedChallenge
+                                }
                             >
-                                {submitting ? "Submitting..." : "Submit Score"}
+                                {submitting
+                                    ? "Submitting..."
+                                    : "Submit Score"}
                             </button>
                         </form>
                     )}
+
                     {message && (
                         <p
                             className={`submit-score-message ${messageType}`}
@@ -303,4 +282,5 @@ function SubmitScore() {
         </main>
     );
 }
+
 export default SubmitScore;
