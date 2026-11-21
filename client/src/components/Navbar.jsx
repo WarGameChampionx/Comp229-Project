@@ -11,7 +11,8 @@ import {
   Menu,
   X,
   ShieldCheck,
-  Send
+  Send,
+  Users,
 } from "lucide-react";
 
 import { useAuth } from "../hooks/useAuth";
@@ -98,6 +99,22 @@ function Navbar() {
             </NavLink>
           )}
 
+          {/* All signed-in users can view their profile */}
+          {isAuthenticated && (
+            <NavLink to="/profile" onClick={closeMenu}>
+            <UserRound size={19} />
+             My Profile
+          </NavLink>
+      )}
+
+          {/* All signed-in users can view the Users page */}
+          {isAuthenticated && (
+            <NavLink to="/users" onClick={closeMenu}>
+              <Users size={19} />
+              Users
+            </NavLink>
+          )}
+
           {isAuthenticated ? (
             <>
               <span className="gz-username">
@@ -111,7 +128,7 @@ function Navbar() {
                 onClick={handleLogout}
               >
                 <LogOut size={18} />
-                Logout
+                Sign Out
               </button>
             </>
           ) : (

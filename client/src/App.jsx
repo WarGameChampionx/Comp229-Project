@@ -15,6 +15,9 @@ import Register from "./pages/Register";
 import AdminDashboard from "./pages/AdminDashboard";
 import ManageChallenges from "./pages/ManageChallenges";
 import SubmitScore from "./pages/SubmitScore";
+import Profile from "./pages/Profile";
+import Users from "./pages/Users";
+
 
 
 // Temporary placeholder until the assigned developer
@@ -49,6 +52,8 @@ function App() {
             {/* Authenticated user pages */}
             <Route element={<ProtectedRoute />}>
               <Route path="/scores/submit" element={<SubmitScore />}/>
+              <Route path="/profile" element={<Profile />}/>
+              <Route path="/users" element={<Users />}/>
             </Route>
             <Route element={<AdminRoute />}>
               <Route path="/admin" element={<AdminDashboard />} />
